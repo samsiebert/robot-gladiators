@@ -5,7 +5,7 @@ var playerMoney = 10;
 
 console.log(playerName, playerHealth, playerAttack);
 
-var enemyName = "Roborto"
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"]
 var enemyHealth = 50;
 var enemyAttack = 12;
 
@@ -68,4 +68,4 @@ if (promptFight === "fight" || promptFight ==="FIGHT") {
 
 };
 
-fight();
+//fight();
