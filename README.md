@@ -1,1 +1,4 @@
-# robot-gladiators
+# Robot Gladiators
+
+## Purpose
+* Program 
