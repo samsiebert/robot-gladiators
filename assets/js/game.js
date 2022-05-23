@@ -27,13 +27,15 @@ if (promptFight === "skip" || promptFight === "SKIP") {
      if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!");
         //subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney)
         break;
     }
 }
     //remove enemy's health by subtracting playerAttack
-     enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumer(playerAttack - 3, playerAttack);
+
+     enemyHealth = Math.max(0, enemyHealth - damage);
      console.log(
          playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
      );
@@ -52,7 +54,9 @@ if (promptFight === "skip" || promptFight === "SKIP") {
     }
 
     //remove player's health by subtracting enemyAttack
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
         enemyName + " attacked " + playerName +". " + playerName + " now has " + playerHealth + " health remaining."
     );
@@ -67,30 +71,8 @@ if (promptFight === "skip" || promptFight === "SKIP") {
     } //end of while loop
 }//end of fight functions 
 
-
 // function to start a new game
 var startGame = function() {
-
-//function to end the entire game
-var endGame = function() {
-    // if player still alive, player wins!
-if (playerHealth > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
-}
-else {
-    window.alert("The game has now ended. Let's see how you did!");
-    }
-// ask player if they'd like to play again
-var playAgainConfirm = window.confirm("Would you like to play again?");
-
-if (playAgainConfirm) {
-    // restart the game
-    startGame();
-}
-else {
-    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
-}
-}
     // reset player stats
     playerHealth = 100;
     playerAttack = 10;
@@ -106,22 +88,59 @@ for(var i = 0; i < enemyNames.length; i++) {
         var pickedEnemyName = enemyNames[i];
 
         //reset enemyHealth befores starting new fight
-        enemyHealth = 50;
+        enemyHealth = randomNumber(40, 60);
 
         //use debugger to pause script from running and check whats going on at the moment ion thecode 
         //debugger;
 
-        //pass the puckedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+        //pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
         fight(pickedEnemyName);
+
+        //if we're not at the last enemy in the array
+        if (playerHealth > 0 && i < enemyNames.length - 1) {
+            shop();
+        };
     }
     //if player isn't alive, stop the game
     else {
         window.alert("You have lost your robot in battle! Game Over!");
         }
+
+    //function to end the entire game
+    var endGame = function() {
+        // if player still alive, player wins!
+        if (playerHealth > 0) {
+            window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
+         }
+         else {
+            window.alert("The game has now ended. Let's see how you did!");
+        }
+
+        // ask player if they'd like to play again
+        var playAgainConfirm = window.confirm("Would you like to play again?");
+
+        if (playAgainConfirm) {
+         // restart the game
+        startGame();
+        }
+         else {
+         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+         }
+        }
+    };
+        // after the loop ends, player is either out of health or enemies to fight, run endGame function
+        endGame();
     };
 
-    // after the loop ends, player is either out of health or enemies to fight, run endGame function
-    endGame();
-};
+ var shop = function() {
+    console.log("entered the shop");
+ };
+
+ var randomNumber = function(min, max) {
+     var value = Math.floor(Math.random() * (max - min + 1)) + min;
+
+     return value;
+ };
+
 // start the game when the page loads
 startGame();
